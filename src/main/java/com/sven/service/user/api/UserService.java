@@ -15,4 +15,6 @@ public interface UserService {
      * @return
      */
     UserDTO store(UserDTO userDTO);
+
+    UserDTO getById(Long userId);
 }

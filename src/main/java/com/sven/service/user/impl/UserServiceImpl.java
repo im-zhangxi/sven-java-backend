@@ -25,6 +25,15 @@ public class UserServiceImpl implements UserService {
         return toDTO(user);
     }
 
+    @Override
+    public UserDTO getById(Long userId) {
+        User user = repository.getById(userId);
+        if (user == null) {
+            return null;
+        }
+        return toDTO(user);
+    }
+
     private User toPO(UserDTO userDTO) {
         User user = new User();
         BeanUtils.copyProperties(userDTO, user);
