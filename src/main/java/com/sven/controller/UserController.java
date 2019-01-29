@@ -1,8 +1,9 @@
 package com.sven.controller;
 
-import com.sven.entity.User;
-import com.sven.dto.UserDto;
-import com.sven.service.UserService;
+import com.sven.model.UserVo;
+import com.sven.service.user.api.UserService;
+import com.sven.service.user.api.dto.UserDTO;
+import com.sven.service.user.impl.dao.po.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +16,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private ModelMapper modelMapper;
 
     @PostMapping(value = "/user")
-    public @ResponseBody ResponseEntity<UserDto> store(@RequestBody User params)
-    {
-        User user = userService.store(params);
-        UserDto userDto = modelMapper.map(user, UserDto.class);
+    @ResponseBody
+    public ResponseEntity<UserVo> store(@RequestBody User params) {
+        UserDTO user = userService.store(toDTO(params));
+        UserVo userVo = toVo(user);
+        return new ResponseEntity<>(userVo, HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    private UserVo toVo(UserDTO user) {
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(user, userVo);
+        return userVo;
+    }
+
+    private UserDTO toDTO(User params) {
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(params, userDTO);
+        return userDTO;
     }
 
 }

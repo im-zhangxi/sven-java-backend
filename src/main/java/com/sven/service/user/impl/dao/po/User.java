@@ -1,21 +1,46 @@
-package com.sven.dto;
+package com.sven.service.user.impl.dao.po;
 
-import com.sven.entity.User;
 import lombok.Data;
-
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+@Entity
+@Table(name="user")
 @Data
-public class UserDto {
+public class User {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+
+    @Column(length = 20,columnDefinition = "varchar(20) COMMENT '姓名'")
     private String name;
+
+    @NotNull
+    @Column(length = 11, columnDefinition = "char(11) not null comment '手机号'")
     private String phone;
+
+    @Column(length = 50, columnDefinition = "varchar(50) comment '邮箱'")
     private String email;
+
+    @Column(columnDefinition = "varchar(255) comment '头像uri'")
     private String avatar;
+
+    @NotNull
+    @Column(columnDefinition = "varchar(255) default '' comment '密码'")
+    private String pwd;
+
+    @Column(columnDefinition = "tinyint(3) default 1 not null comment '性别'")
     private Integer sex = 1;
+
+    @Column(precision = 12, scale = 2,columnDefinition = "decimal(12,3) default 0.000 comment '余额'")
     private BigDecimal balance;
+
+    @Column(name = "created_at", columnDefinition = "timestamp")
     private Timestamp createdAt;
+
+    @Column(name = "updated_at", columnDefinition = "timestamp")
     private Timestamp updatedAt;
 
     public Long getId() {
@@ -58,13 +83,16 @@ public class UserDto {
         this.avatar = avatar;
     }
 
-    public String getSex() {
-        String sexString = "男";
-        if (sex == 2) {
-            sexString = "女";
-        }
+    public String getPwd() {
+        return pwd;
+    }
 
-        return sexString;
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
+    public Integer getSex() {
+        return sex;
     }
 
     public void setSex(Integer sex) {
