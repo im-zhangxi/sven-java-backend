@@ -1,6 +1,8 @@
 package com.sven.service.user.impl.dao.po;
 
 import lombok.Data;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -9,6 +11,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name="user")
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -17,7 +20,6 @@ public class User {
     @Column(length = 20,columnDefinition = "varchar(20) COMMENT '姓名'")
     private String name;
 
-    @NotNull
     @Column(length = 11, columnDefinition = "char(11) not null comment '手机号'")
     private String phone;
 
@@ -27,7 +29,6 @@ public class User {
     @Column(columnDefinition = "varchar(255) comment '头像uri'")
     private String avatar;
 
-    @NotNull
     @Column(columnDefinition = "varchar(255) default '' comment '密码'")
     private String pwd;
 
