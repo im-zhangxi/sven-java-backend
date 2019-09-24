@@ -1,6 +1,10 @@
 package com.sven.controller;
 
+import lombok.Data;
+
 import java.util.function.Function;
+
+@Data
 public class WebApiResponse<T> {
 
     public static final int SUCCESS_CODE = 0;
@@ -36,7 +40,7 @@ public class WebApiResponse<T> {
         WebApiResponse<T> response = new WebApiResponse<>();
         response.setCode(errorCode);
         response.setError(errorMessage);
-        response.setNeedRetry(isNeedRetry);
+        response.setIsNeedRetry(isNeedRetry);
         return response;
     }
 
@@ -50,47 +54,6 @@ public class WebApiResponse<T> {
         } catch (Exception e) {
             return error(exceptionHandler.apply(e));
         }
-    }
-
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public String getAuthType() {
-        return authType;
-    }
-
-    public void setAuthType(String authType) {
-        this.authType = authType;
-    }
-
-    public Boolean getNeedRetry() {
-        return isNeedRetry;
-    }
-
-    public void setNeedRetry(Boolean needRetry) {
-        isNeedRetry = needRetry;
     }
 
     @Override
